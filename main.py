@@ -31,6 +31,16 @@ lettersdict = {
     'x': '🇽',
     'y': '🇾',
     'z': '🇿',
+    '0': '0️⃣',
+    '1': '1️⃣',
+    '2': '2️⃣',
+    '3': '3️⃣',
+    '4': '4️⃣',
+    '5': '5️⃣',
+    '6': '6️⃣',
+    '7': '7️⃣',
+    '8': '8️⃣',
+    '9': '9️⃣',
     ' ': '⬜',
     '.': '⏺️',
     '!': '❕',
@@ -58,14 +68,18 @@ async def console_input():
     await client.wait_until_ready()
     while True:
         msg = input('> Message to send: ')
-        if is_isogram(msg) and len(msg) <= 20:
+        if msg == '':
+            await on_ready()
+        elif is_isogram(msg) and len(msg) <= 20:
             break
         else:
             print("not quite! you can only use one letter once (including spaces) and your message must be less than 20 letters")
     async for message in channel.history(limit=1):
         for l in msg.lower():
-            await message.add_reaction(lettersdict[l])
-    
+            try:
+                await message.add_reaction(lettersdict[l])
+            except KeyError:
+                print("oh no! we could not add " + str(l) + " to your message")
     print('')
     await console_input()
 
