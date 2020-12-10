@@ -49,6 +49,7 @@ lettersdict = {
 
 import discord
 import config
+import time
 
 client = discord.Client()
 
@@ -80,6 +81,7 @@ async def console_input():
                 await message.add_reaction(lettersdict[l])
             except KeyError:
                 print("oh no! we could not add " + str(l) + " to your message")
+            time.sleep(config.delay)
     print('')
     await console_input()
 
